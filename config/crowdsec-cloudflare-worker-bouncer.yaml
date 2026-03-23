@@ -11,6 +11,11 @@ crowdsec_config:
   ca_cert_path: "" # Used for TLS authentification with CrowdSec LAPI
 
 cloudflare_config:
+    worker:
+        script_name: crowdsec-cloudflare-worker-bouncer             # Change when sharing a Cloudflare account with another bouncer instance
+        kv_namespace_name: CROWDSECCFBOUNCERNS                      # Change when sharing a Cloudflare account with another bouncer instance
+        d1_db_name: CROWDSECCFBOUNCERDB                             # Change when sharing a Cloudflare account with another bouncer instance
+        decisions_sync_script_name: crowdsec-decisions-sync-worker  # Change when sharing a Cloudflare account with another bouncer instance (autonomous mode)
     accounts:
         - id: <ACCOUNT_ID>
           zones:
