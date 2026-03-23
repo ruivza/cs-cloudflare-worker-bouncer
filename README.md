@@ -95,18 +95,38 @@ When you run `-d` (delete) on one instance, it only removes resources matching i
 
 ---
 
-## CLI Reference
+## Installation
 
-```
-Usage: crowdsec-cloudflare-worker-bouncer [flags]
+Download the latest release for your architecture from the [Releases page](https://github.com/ruivza/cs-cloudflare-worker-bouncer/releases).
 
-  -c string      path to config file (default: /etc/crowdsec/bouncers/crowdsec-cloudflare-worker-bouncer.yaml)
-  -g string      comma-separated API tokens to auto-generate config from
-  -o string      output path for generated config (used with -g)
-  -s             deploy Cloudflare infra and exit (daemon mode setup)
-  -S             deploy Cloudflare infra including decisions-sync-worker and exit (autonomous mode setup)
-  -d             delete all Cloudflare infra created by this bouncer and exit
-  -t             test config and exit
-  -T             print full merged config and exit
-  -version       print version and exit
+**Linux amd64 (most servers):**
+
+```bash
+mkdir ~/crowdsec-cf-bouncer && cd ~/crowdsec-cf-bouncer
+wget https://github.com/ruivza/cs-cloudflare-worker-bouncer/releases/latest/download/crowdsec-cloudflare-worker-bouncer-linux-amd64.tgz
+tar xzf crowdsec-cloudflare-worker-bouncer-linux-amd64.tgz
+cd crowdsec-cloudflare-worker-bouncer-v*
+sudo ./install.sh
 ```
+
+**Linux arm64 (e.g. Oracle Cloud ARM, Raspberry Pi):**
+
+```bash
+mkdir ~/crowdsec-cf-bouncer && cd ~/crowdsec-cf-bouncer
+wget https://github.com/ruivza/cs-cloudflare-worker-bouncer/releases/latest/download/crowdsec-cloudflare-worker-bouncer-linux-arm64.tgz
+tar xzf crowdsec-cloudflare-worker-bouncer-linux-arm64.tgz
+cd crowdsec-cloudflare-worker-bouncer-v*
+sudo ./install.sh
+```
+
+`install.sh` installs the binary and places a default config at `/etc/crowdsec/bouncers/crowdsec-cloudflare-worker-bouncer.yaml`.
+
+**Configure and start:**
+
+```bash
+sudo vim /etc/crowdsec/bouncers/crowdsec-cloudflare-worker-bouncer.yaml
+sudo systemctl start crowdsec-cloudflare-worker-bouncer
+sudo systemctl status crowdsec-cloudflare-worker-bouncer
+```
+
+For full configuration options, follow the [official upstream documentation](https://docs.crowdsec.net/docs/next/bouncers/cloudflare-workers).
