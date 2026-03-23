@@ -34,9 +34,9 @@ jobs:
           elif [[ $GITHUB_REF == refs/pull/* ]]; then
             VERSION=pr-${{ github.event.number }}
           fi
-          TAGS="${DOCKER_IMAGE}:${VERSION},${GHCR_IMAGE}:${VERSION}"
+          TAGS="${GHCR_IMAGE}:${VERSION}"
           if [[  "${{ github.event_name }}" == "release" && "${{ github.event.release.prerelease }}" == "false" ]]; then
-            TAGS=$TAGS,${DOCKER_IMAGE}:latest,${GHCR_IMAGE}:latest
+            TAGS=$TAGS,${GHCR_IMAGE}:latest
           fi
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
           echo "tags=${TAGS}" >> $GITHUB_OUTPUT
@@ -47,15 +47,7 @@ jobs:
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
-      -
-        name: Login to DockerHub
-        if: github.event_name == 'release'
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Login to GitHub Container Registry
+      -name: Login to GitHub Container Registry
         uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
         with:
           registry: ghcr.io
